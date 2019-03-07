@@ -41,11 +41,8 @@ app.get('/transfer', (req, res) => {
 app.post('/transfer', (req, res) => {
     const fromAccount = accounts[req.body.from];
     const toAccount = accounts[req.body.to];
-    console.log(req.body.amount, parseFloat(req.body.amount))
-    console.log(fromAccount.balance , toAccount.balance)
     fromAccount.balance = parseFloat(fromAccount.balance) - parseFloat(req.body.amount);
     toAccount.balance = parseFloat(toAccount.balance) + parseFloat(req.body.amount);
-    console.log(fromAccount.balance, toAccount.balance)
 
     const accountsJSON = JSON.stringify(accounts);
     fs.writeFileSync(path.join(__dirname, 'json', 'accounts.json'),accountsJSON,{encoding: 'utf8'});
@@ -59,6 +56,7 @@ app.get('/payment', (req, res) => {
 app.post('/payment', (req, res) => {
     accounts.credit.balance = parseFloat(accounts.credit.balance) - parseFloat(req.body.amount);
     accounts.credit.available = parseFloat(accounts.credit.available) + parseFloat(req.body.amount);
+    
     const accountsJSON = JSON.stringify(accounts);
     fs.writeFileSync(path.join(__dirname, 'json', 'accounts.json'), accountsJSON, { encoding: 'utf8' });
     res.send({ message: "Payment Succesful", account: accounts.credit })
