@@ -6,12 +6,12 @@ const express = require('express');
 const app = express();
 
 app.set('view engine','ejs');
-app.set('views',path.join(__dirname,'src/views'));
+app.set('views',path.join(__dirname,'views/'));
 
-app.use(path.join(__dirname,'src/public'));
+app.use(express.static(path.join(__dirname,'public')))
 
 app.get('/',(req,res) => {
-    res.render('index', {title: 'Index'})
+    res.render('index.ejs', {title: 'Index'})
 })
 
 app.listen(3000, (req, res) => {
